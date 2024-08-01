@@ -1,5 +1,7 @@
 #include<iostream>
 #include<string>
+#include <fstream>
+#include <sstream> 
 
 //双方向リスト
 template <typename T>
@@ -21,6 +23,11 @@ private:
     class ListIterator
     {
     public:
+
+        ListIterator(ListElement* ptr) :element{ptr}
+        {
+
+        }
 
         T& operator *()
         {
@@ -80,14 +87,27 @@ int main()
     //テストコード
     List<std::pair<int,std::string>> list;
 
-    list.add({ 10,"aaaa" });
-    list.add({ 20,"bbbb" });
-    list.add({ 30,"cccc" });
-    list.add({ 40,"dddd" });
+    std::ifstream file;
+    std::string line;
+
+    file.open("Scores.txt", std::ios::in);
+
+    while (std::getline(file, line))
+    {
+        std::pair<int, std::string>data;
+
+        std::string temp;
+        std::stringstream ss{ line };
+        std::getline(ss, temp, '\t');
+        data.first = atoi(temp.c_str());
+        std::getline(ss, temp, '\t');
+        data.second = temp;
+
+        list.add(data);
+    }
 
     for (const auto& data : list)
     {
-        std::cout << data.first << data.second<<std::endl;
+        std::cout << data.first <<"\t" << data.second << std::endl;
     }
-
 }
