@@ -92,10 +92,12 @@ int main()
 
     file.open("Scores.txt", std::ios::in);
 
+    //一行ずつ読み込む
     while (std::getline(file, line))
     {
         std::pair<int, std::string>data;
 
+        //タブで区切り、リストに追加する。
         std::string temp;
         std::stringstream ss{ line };
         std::getline(ss, temp, '\t');
